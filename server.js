@@ -73,7 +73,6 @@ function checkDate(date, res){
 
 
 // listen for requests :)
-process.env.PORT
-var listener = app.listen(3000, function () {
+var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
