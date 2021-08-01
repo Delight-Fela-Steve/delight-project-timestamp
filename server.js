@@ -34,7 +34,7 @@ app.get('/api', (req,res)=>{
 
 app.get('/api/:date?', (req,res)=>{
   // returns current date if empty date or white space parameter set
-  if (/\s/.test(req.params.date)){
+  if (/^\s*$/.test(req.params.date)){
     const date = new Date();
     const unix = date.getTime();
     const utc = date.toUTCString();
