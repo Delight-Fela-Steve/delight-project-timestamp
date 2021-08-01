@@ -33,21 +33,22 @@ app.get('/api', (req,res)=>{
 });
 
 app.get('/api/:date?', (req,res)=>{
+  let date_string = req.params.date;
   // returns current date if empty date or white space parameter set
-  if (/^\s*$/.test(req.params.date)){
-    const date = new Date();
+  if (/^\s*$/.test()){
+    const date = new Date(date_string);
     const unix = date.getTime();
     const utc = date.toUTCString();
     return res.json({"unix":unix, "utc":utc});
   }
-  if (isNaN(req.params.date)){
-    const date = new Date(req.params.date);
+  if (isNaN(date_string)){
+    const date = new Date(date_string);
     // checks if date is a valid date
     checkDate(date, res);
     
 
   }else{
-      const date = new Date(Number(req.params.date));
+      const date = new Date(Number(date_string));
       // checks if date is a valid date
       checkDate(date, res);
   }
