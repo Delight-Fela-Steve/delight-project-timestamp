@@ -19,14 +19,60 @@ app.get("/", function (req, res) {
 });
 
 
-// your first API endpoint... 
+//your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
 
+app.get('/api', (req,res)=>{
+  const date = new Date();
+  const unix = date.getTime();
+  const utc = date.toUTCString();
+  res.json({"unix":unix, "utc":utc});
+});
+
+app.get('/api/:date?', (req,res)=>{
+  // returns current date if empty date or white space parameter set
+  if (/\s/.test(req.params.date)){
+    const date = new Date();
+    const unix = date.getTime();
+    const utc = date.toUTCString();
+    return res.json({"unix":unix, "utc":utc});
+  }
+  if (isNaN(req.params.date)){
+    const date = new Date(req.params.date);
+    // checks if date is a valid date
+    checkDate(date, res);
+    
+
+  }else{
+      const date = new Date(Number(req.params.date));
+      // checks if date is a valid date
+      checkDate(date, res);
+  }
+});
+
+
+
+// Date checker
+function checkDate(date, res){
+  if(isNaN(date)){
+    return res.json({"error":"Invalid Date"});
+  }
+  unix = date.getTime();
+  utc = date.toUTCString();
+  return res.json({"unix":unix, "utc":utc});;
+}
+
+
+
+
+
+
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+process.env.PORT
+var listener = app.listen(3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
